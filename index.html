@@ -1,68 +1,142 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
 	<meta charset="UTF-8">
 	<title>Sophie Bluel - Architecte d'intérieur</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
+		rel="stylesheet">
 	<meta name="description" content="">
+	<script src="https://kit.fontawesome.com/766eaadd3e.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="./assets/style.css">
 	<script type="module" src="assets/script.js" defer></script>
-</head>
-<body>
-<header>
-	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
-	<nav>
-		<ul>
-			<li><a href="index.html">projets</a></li>
-			<li>contact</li>
-			<li><a href="logIn.html">login</a></li>
-			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
-		</ul>
-	</nav>
-</header>
-<main>
-	<section id="introduction">
-		<figure>
-			<img src="./assets/images/sophie-bluel.png" alt="">
-		</figure>
-		<article>
-			<h2>Designer d'espace</h2>
-			<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p>
-			<p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
-			<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
-		</article>
-	</section>
-	<section id="portfolio">
-		<h2>Mes Projets</h2>
-		<div class="filters">
-		</div>
-		<div class="gallery">
-		</div>
-	</section>
-	<section id="contact">
-		<h2>Contact</h2>
-		<p>Vous avez un projet ? Discutons-en !</p>
-		<form action="#" method="post">
-			<label for="name">Nom</label>
-			<input type="text" name="name" id="name">
-			<label for="email">Email</label>
-			<input type="email" name="email" id="email">
-			<label for="message">Message</label>
-			<textarea name="message" id="message" cols="30" rows="10"></textarea>
-			<input type="submit" value="Envoyer">
-		</form>
-	</section>
-</main>
+	<script type="module" src="assets/admin.js" defer></script>
+	<script type="module" src="assets/ModalePostNewProject.js" defer></script>
+	<script type="module" src="assets/ModaleDeleteProject.js" defer></script>
 
-<footer>
-	<nav>
-		<ul>
-			<li>Mentions Légales</li>
-		</ul>
-	</nav>
-</footer>
+</head>
+
+<body id="body">
+	<div class="modale_delete_project hidden" id="modale">
+		<div class="modale_content">
+			<a href="#" class="modale_close" id="close1">&times;</a>
+			<h1>Galerie photo</h1>
+			<div class="gallery_modale">
+			</div>
+			<HR>
+			<input type="submit" id="add_photo" class="button" value="Ajouter une photo">
+		</div>
+	</div>
+	<div class="modale_add_project hidden" id="modale">
+		<div class="modale_content">
+			<i class="fa-solid fa-arrow-left"></i>
+			<a href="#" class="modale_close" id="close2">&times;</a>
+			<h1>Ajout photo</h1>
+			<form id="newProject" method="post" action="http://localhost:5678/api/works">
+				<div class="box_add_photo">
+				<i class="fa-regular fa-image add_photo"></i>
+				
+					<input type="file" id="add_photo_input" accept=".jpg, .png" name="image"class="hidden add_photo" required>
+					<label id="add_photo_label" for="add_photo_input" class="add_photo">+ Ajouter photo</label>
+				
+				<p class="add_photo">jpg, png : 4mo max</p>	
+				<span id='missImage' class="hidden"></span><br>
+			</div>
+			
+				<div class="choosePhoto hidden">
+					<img alt="" id="previewPhoto">
+				</div>
+
+				<label for="title">Titre</label>
+				<input type="text" name="title" id="title" required><br>
+				<span id='missTitle' class="hidden"></span><br>
+				<label for="category">Catégorie</label><br>
+				<select name="category" id="select_categ" required>
+					<!--<option value="" disabled></option>
+					<option value="1">Objets</option>
+					<option value="2">Appartements</option>
+					<option value="3">Hôtels et restaurants</option>-->
+				</select>
+				<span id='missCategory' class="hidden"></span><br>
+				<HR>
+				<input type="submit" id="valid_add_photo" class="valid_add_photo" value="Valider">
+			</form>
+			<div id="output"></div>
+		</div>
+	</div>
+	<div id="adminElement0" class="hidden admin">
+		<i class="fa-regular fa-pen-to-square"></i>
+		<p>Mode édition</p>
+	</div>
+	<header>
+
+		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
+		<nav>
+			<ul>
+				<li><a href="index.html">projets</a></li>
+				<li>contact</li>
+				<li id="adminElement1" class="admin"><a href="logIn.html">login</a></li>
+				<li id="adminLogoLogOut" class="hidden admin"><a href="index.html">logout</a></li>
+				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
+			</ul>
+		</nav>
+	</header>
+	<main>
+		<section id="introduction">
+			<figure>
+				<img src="./assets/images/sophie-bluel.png" alt="">
+			</figure>
+			<article>
+				<h2>Designer d'espace</h2>
+				<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la
+					livraison
+					finale du chantier.</p>
+				<p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les
+					couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du
+					chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
+				<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG,
+					décorateur(trice)</p>
+			</article>
+		</section>
+		<section id="portfolio">
+			<div class="portfolio-header">
+				<h2>Mes projets</h2>
+				<div id="adminElement4" class="hidden admin">
+					<i id="adminElement5" class="fa-regular fa-pen-to-square"></i>
+					<p><a class="modifPortfolio" href="#modale">modifier</a></p>
+				</div>
+			</div>
+
+			<div class="filters admin" id="adminElement3">
+			</div>
+			<div class="gallery">
+			</div>
+		</section>
+		<section id="contact">
+			<h2>Contact</h2>
+			<p>Vous avez un projet ? Discutons-en !</p>
+			<form action="#" method="post">
+				<label for="name">Nom</label>
+				<input type="text" name="name" id="name">
+				<label for="email">Email</label>
+				<input type="email" name="email" id="email">
+				<label for="message">Message</label>
+				<textarea name="message" id="message" cols="30" rows="10"></textarea>
+				<input class="button" type="submit" value="Envoyer">
+			</form>
+		</section>
+	</main>
+
+	<footer>
+		<nav>
+			<ul>
+				<li>Mentions Légales</li>
+			</ul>
+		</nav>
+	</footer>
 </body>
+
 </html>
