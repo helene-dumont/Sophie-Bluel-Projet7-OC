@@ -9,7 +9,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/logIn.css">
-	<script type="module" src="assets/script.js" defer></script>
+	<script type="module" src="assets/logIn.js" defer></script>
 </head>
 <body>
 <header>
@@ -18,7 +18,7 @@
 		<ul>
 			<li><a href="index.html">projets</a></li>
 			<li>contact</li>
-			<li><a href="index2.html">login</a></li>
+			<li id="navLogIn"><a href="index2.html">login</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -28,13 +28,15 @@
     <section id="log_in_form">
 		<h2>Log In</h2>
         <form class="logIn" method="post" action="http://localhost:5678/api/users/login">
-            <label for=""password">Mot de passe</label> <br>
+            <label for="Email">Email</label> <br>
             <input id="email" type="email" name="email"> <br>
             <label for="password">Mot de passe</label> <br>
             <input id="password" type="password" name="password"> <br>
+			<p id="error"></p>
             <input type="submit" value="Se connecter">
             <a href="#" class="mdp">Mot de passe oublié</a>
         </form>
+	
     </section>
 
 	<footer>

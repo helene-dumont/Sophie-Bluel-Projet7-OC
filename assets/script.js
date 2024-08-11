@@ -1,14 +1,14 @@
-import {logIn} from "./logIn.js";
+//_____________________________FONCTION QUI RECUPERE LES PROJETS DEPUIS L'API__________________________________________
 
-//---------------------Création d'une fonction qui récupère les projets depuis l'API-----------------------------------
-async function getWorks() {
+export async function getWorks() {
     const response = await fetch("http://localhost:5678/api/works");
     const projects = await response.json();
     return projects;
 }
 
-//---------------------Création d'une fonction qui affiche les éléments works---------------------------------------------
-async function displayWorks(idCategory) {
+//_______________________________FONCTION QUI AFFICHE LES ELEMENTS WORKS___________________________________________
+
+export async function displayWorks(idCategory) {
     //constante pour stocker le tableau d'objets correspondant aux projets récupérés dans l'API
     let works = await getWorks();
     //condition pour la mise en oeuvre du filtrage des catégories à partir de l'idCategory
@@ -36,14 +36,14 @@ async function displayWorks(idCategory) {
 
 displayWorks(-1);
 
+//__________________________________FILTRAGE PAR CATEGORIES______________________________________________________
 
-//__________________________________AJOUT DES BOUTONS FILTRES ET DES EVENT LISTENERS______________________________________________________
-
-//-------------------CREATION DE LA FONCTION "display_buttons" QUI GERE L'AFFICHAGE DES 4 BOUTONS----------------------------
+//-------------------FONCTION "display_buttons" QUI GERE L'AFFICHAGE DES 4 BOUTONS----------------------------
 
 function display_buttons(ind_button) {
     let buttons = document.querySelectorAll(".filter");
     console.log("exec function" + ind_button);
+    let i = 0;
     for (i = 0; i < buttons.length; i++) {
         if (i == ind_button) {
             buttons[i].classList.add("filter_selected");
@@ -53,14 +53,14 @@ function display_buttons(ind_button) {
     }
 }
 
-//--------------------CREATION DE LA FONCTION "getCategory" pour récupérer les catégories depuis l'API--------------------------------------
-async function getCategory() {
+//--------------------FONCTION "getCategory" pour RECUPERER LES CATEGORIES depuis l'API--------------------------------------
+export async function getCategory() {
     const response = await fetch("http://localhost:5678/api/categories");
     const worksCategory = await response.json();
     return worksCategory;
 }
 
-//----------------------CREATION DE LA FONCTION "displayCategory" qui affiche les projets par catégorie------------------------------------
+//----------------------FONCTION "displayCategory" QUI GERE L'AFFICHAGE DES PROJETS PAR CATEGORIE------------------------------------
 async function displayCategory() {
     //constante pour stocker le tableau d'objets correspondant aux catégories récupérées dans l'API
     const category = await getCategory();
@@ -85,11 +85,17 @@ async function displayCategory() {
 }
 displayCategory();
 
-//--------------Ajout d'un EVENTLISTENER sur bouton SE CONNECTER :
-const formulaireIdent = document.querySelector("form");
-formulaireIdent.addEventListener("submit", async function (event) {
-    // Désactivation du comportement par défaut du navigateur
-    event.preventDefault();
-    console.log("pas de rechargement de la page");
-    logIn();
-});
+//_____________________Ajout d'un EVENTLISTENER sur le bouton "modifier" (ouverture de la modale)______________________________
+
+function modifProject() {
+    const modifPortfolio = document.querySelector(".modifPortfolio");
+    let modale_delete_project = document.querySelector(".modale_delete_project");
+    modifPortfolio.addEventListener("click", function () {
+        console.log("clic modifier");
+        modale_delete_project.classList.remove("hidden");
+    })
+}
+modifProject();
+
+
+
