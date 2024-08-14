@@ -12,6 +12,7 @@
 	<meta name="description" content="">
 	<script src="https://kit.fontawesome.com/766eaadd3e.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="./assets/style.css">
+	<link rel="stylesheet" href="./assets/modales.css">
 	<script type="module" src="assets/script.js" defer></script>
 	<script type="module" src="assets/admin.js" defer></script>
 	<script type="module" src="assets/ModalePostNewProject.js" defer></script>
@@ -20,54 +21,45 @@
 </head>
 
 <body id="body">
-	<div class="modale_delete_project hidden" id="modale">
-		<div class="modale_content">
-			<a href="#" class="modale_close" id="close1">&times;</a>
+	<div class="modaleMain hidden" id="modale">
+		<div class="modaleContent">
+			<a href="#" class="modaleClose" id="closeModaleMain">&times;</a>
 			<h1>Galerie photo</h1>
-			<div class="gallery_modale">
+			<div class="galleryModale">
 			</div>
 			<HR>
-			<input type="submit" id="add_photo" class="button" value="Ajouter une photo">
+			<input type="submit" id="addPhoto" class="button" value="Ajouter une photo">
 		</div>
 	</div>
-	<div class="modale_add_project hidden" id="modale">
-		<div class="modale_content">
+	<div class="modaleAdd hidden" id="modale">
+		<div class="modaleContent">
 			<i class="fa-solid fa-arrow-left"></i>
-			<a href="#" class="modale_close" id="close2">&times;</a>
+			<a href="#" class="modaleClose" id="closeModaleAdd">&times;</a>
 			<h1>Ajout photo</h1>
 			<form id="newProject" method="post" action="http://localhost:5678/api/works">
-				<div class="box_add_photo">
-				<i class="fa-regular fa-image add_photo"></i>
-				
-					<input type="file" id="add_photo_input" accept=".jpg, .png" name="image"class="hidden add_photo" required>
-					<label id="add_photo_label" for="add_photo_input" class="add_photo">+ Ajouter photo</label>
-				
-				<p class="add_photo">jpg, png : 4mo max</p>	
-				<span id='missImage' class="hidden"></span><br>
-			</div>
-			
-				<div class="choosePhoto hidden">
+				<div class="choosePhoto">
+					<i class="fa-regular fa-image addPhoto"></i>
+					<input type="file" id="addPhotoInput" accept=".jpg, .png" name="image" class="hidden addPhoto" required>
+					<label id="addPhotoLabel" for="addPhotoInput" class="addPhoto">+ Ajouter photo</label>
+					<p class="addPhoto">jpg, png : 4mo max</p>
+					<span id='missImage' class="hidden"></span><br>
+				</div>
+				<div class="smallPhoto hidden">
 					<img alt="" id="previewPhoto">
 				</div>
-
 				<label for="title">Titre</label>
 				<input type="text" name="title" id="title" required><br>
 				<span id='missTitle' class="hidden"></span><br>
 				<label for="category">Catégorie</label><br>
-				<select name="category" id="select_categ" required>
-					<!--<option value="" disabled></option>
-					<option value="1">Objets</option>
-					<option value="2">Appartements</option>
-					<option value="3">Hôtels et restaurants</option>-->
+				<select name="category" id="selectCateg" required>
 				</select>
 				<span id='missCategory' class="hidden"></span><br>
 				<HR>
-				<input type="submit" id="valid_add_photo" class="valid_add_photo" value="Valider">
+				<input type="submit" id="validAddPhoto" class="validAddPhoto" value="Valider">
 			</form>
-			<div id="output"></div>
 		</div>
 	</div>
-	<div id="adminElement0" class="hidden admin">
+	<div id="adminElementEdition" class="hidden admin">
 		<i class="fa-regular fa-pen-to-square"></i>
 		<p>Mode édition</p>
 	</div>
@@ -78,7 +70,7 @@
 			<ul>
 				<li><a href="index.html">projets</a></li>
 				<li>contact</li>
-				<li id="adminElement1" class="admin"><a href="logIn.html">login</a></li>
+				<li id="adminLogoLogIn" class="admin"><a href="logIn.html">login</a></li>
 				<li id="adminLogoLogOut" class="hidden admin"><a href="index.html">logout</a></li>
 				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 			</ul>
@@ -104,13 +96,13 @@
 		<section id="portfolio">
 			<div class="portfolio-header">
 				<h2>Mes projets</h2>
-				<div id="adminElement4" class="hidden admin">
-					<i id="adminElement5" class="fa-regular fa-pen-to-square"></i>
+				<div id="adminElementModif" class="hidden admin">
+					<i id="adminElementIconeModif" class="fa-regular fa-pen-to-square"></i>
 					<p><a class="modifPortfolio" href="#modale">modifier</a></p>
 				</div>
 			</div>
 
-			<div class="filters admin" id="adminElement3">
+			<div class="filters admin" id="adminElementFilters">
 			</div>
 			<div class="gallery">
 			</div>

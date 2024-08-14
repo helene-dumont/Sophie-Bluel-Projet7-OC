@@ -3,11 +3,12 @@
 function handleAdminElement() {
     const token = localStorage.getItem("token");
     console.log("token :" + localStorage.getItem("token"));
-    let LogOut = document.getElementById("adminLogoLogOut");
-
+    const LogOut = document.getElementById("adminLogoLogOut");
     const adminElement = document.querySelectorAll(".admin");
+
     if (token != null) {
         console.log("token OK");
+        //Pour chaque élément masqué qui contient la classe "admin", on enlève la classe "hidden" :
         adminElement.forEach((element) => {
             if (element.classList.contains("hidden")) {
                 element.classList.remove("hidden");

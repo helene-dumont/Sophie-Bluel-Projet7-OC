@@ -1,0 +1,196 @@
+/*----------------------MODALE DELETE PROJECT--------------------------------*/
+#modale a {
+	text-decoration: none;
+	padding: 20px;
+	border-radius: 5px;
+	color: black;
+	font-size: 24px;
+	font-weight: bold;
+}
+
+#modale {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.3);
+	top: 0;
+	right: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.modaleContent {
+	width: 420px;
+	height: 80%;
+	background: white;
+	padding: 35px 105px;
+	margin-right: 95px;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+
+}
+
+.modaleContent h1 {
+	display: flex;
+	align-items: center;
+	margin-top: 35px;
+	font-family: Work Sans;
+	color: black;
+	font-size: 26px;
+	font-weight: 400;
+}
+
+.modaleClose {
+	position: absolute;
+	top: 6px;
+	right: 10px;
+}
+
+.galleryModale {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	margin: 46px 0;
+	height: 367px;
+	gap: 9px;
+}
+
+.galleryModale figure img {
+	width: 76px;
+	height: 102px;
+}
+
+.fa-trash-can {
+	display: flex;
+	position: relative;
+	background: black;
+	color: white;
+	padding: 3px;
+	justify-content: center;
+	border-radius: 2px;
+	width: 10px;
+	height: 10px;
+	bottom: 98px;
+	right: -55px;
+	font-size: 9px;
+}
+
+hr {
+	border: 1px solid #B3B3B3;
+	width: 420px;
+	align-content: center;
+	margin-top: 21px;
+	margin-bottom: 32px;
+}
+
+.modaleMain input[type="submit"] {
+	width: 56%;
+	margin-top: 6px;
+}
+
+/*---------FIN MODALE DELETE PROJECT-----------------*/
+
+/*---------MODALE ADD PROJECT -----------------*/
+
+.fa-arrow-left {
+	position: absolute;
+	font-size: 21px;
+	left: 30px;
+}
+
+.choosePhoto {
+	margin-top: 36px;
+	margin-bottom: 30px;
+	height: 43%;
+	background-color: rgba(232, 241, 246, 1);
+}
+
+.smallPhoto {
+	height: 169px;
+	margin-top: 36px;
+	margin-bottom: 30px;
+	background-color: rgba(232, 241, 246, 1);
+}
+
+#addPhotoLabel {
+	border-radius: 50px;
+	margin: 6px auto;
+	display: flex;
+	height: 36px;
+	width: 40%;
+	border: none;
+	background-color: rgb(203, 214, 220);
+}
+
+.addPhoto {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.choosePhoto label {
+	margin: 10px 33px;
+	font-size: 14px;
+	font-family: Work Sans;
+	font-weight: bold;
+	color: rgb(48, 102, 133);
+}
+
+.choosePhoto p {
+	font-size: 10px;
+	color: rgb(68, 68, 68);
+}
+
+.fa-image {
+	font-size: 76px;
+	margin-top: 22px;
+	color: rgba(185, 197, 204, 1);
+	margin-bottom: 13px;
+}
+
+.modaleContent form {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-bottom: 26px;
+}
+
+#title {
+	border: transparent;
+	box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+	height: 51px;
+}
+
+#selectCateg {
+	border: transparent;
+	box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+	height: 51px;
+	background-color: rgb(255, 255, 255);
+}
+
+.validAddPhoto {
+	width: 237px;
+	background-color: rgb(167, 167, 167);
+	border: none;
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	margin: 0 auto;
+	text-align: center;
+	border-radius: 60px;
+	height: 36px;
+}
+
+#previewPhoto {
+	display: flex;
+	margin: auto;
+	max-width: 30%;
+	height: 100%;
+	object-fit: contain;
+}
+
+
+/*------------FIN MODALE ADD PROJECT----------------*/

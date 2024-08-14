@@ -4,46 +4,45 @@ import { cleanForm } from "./ModalePostNewProject.js";
 //__________________________________FONCTION pour FERMER LA MODALE _________________________________________
 
 function close() {   
-    
+
+    const closeModaleMain = document.getElementById("closeModaleMain");
+    const closeModaleAdd = document.getElementById("closeModaleAdd");
+    const modaleMain = document.querySelector(".modaleMain");
+    const modaleAdd = document.querySelector(".modaleAdd");
+
     //-----------------Fermeture au clic sur la croix modale :
-    const modale_close1 = document.getElementById("close1");
-    const modale_close2 = document.getElementById("close2");
     
-    modale_close1.addEventListener("click", function () {
-        console.log("clic close1");
-        modale1.classList.add("hidden");
+    closeModaleMain.addEventListener("click", function () {
+        modaleMain.classList.add("hidden");
     })
-    modale_close2.addEventListener("click", function () {
-        console.log("clic close2");
-        modale2.classList.add("hidden");
-        cleanForm();
+    closeModaleAdd.addEventListener("click", function () {
+        modaleAdd.classList.add("hidden");
+        cleanForm(); //Reset du formulaire
     })
     
-    //-----------------Fermeture au clic en dehors de la modale :
-    const modale1 = document.querySelector(".modale_delete_project");
-    const modale2 = document.querySelector(".modale_add_project");
+    //-----------------Fermeture au clic en dehors des modales :
     
-    modale1.addEventListener('click', function (event) {
-        const inside = event.target.closest('.modale_content');
+    modaleMain.addEventListener('click', function (event) {
+        const inside = event.target.closest('.modaleContent');
         if (!inside) {
-            modale1.classList.add('hidden')
+            modaleMain.classList.add('hidden')
         }
     })
-    modale2.addEventListener('click', function(event) {
-        const inside = event.target.closest('.modale_content');
+    modaleAdd.addEventListener('click', function(event) {
+        const inside = event.target.closest('.modaleContent');
         if (!inside) {
-            modale2.classList.add('hidden')
+            modaleAdd.classList.add('hidden');
+            cleanForm(); // Reset du formulaire
         }
     })
     
     //----------------Au clic sur la flèche modale 2 = retour sur la modale 1 :
-    const backModale1 = document.querySelector(".fa-arrow-left");
+    const arrowBackModaleMain = document.querySelector(".fa-arrow-left");
     
-    backModale1.addEventListener("click", function () {
-        console.log("clic backModale1");
-        modale1.classList.remove("hidden");
-        modale2.classList.add("hidden");
-        cleanForm();
+    arrowBackModaleMain.addEventListener("click", function () {
+        modaleMain.classList.remove("hidden");
+        modaleAdd.classList.add("hidden");
+        cleanForm(); // Reset du formulaire
     })
 }
 close();
@@ -53,20 +52,20 @@ close();
 export async function displayWorksModale() {
     //constante pour stocker le tableau d'objets correspondant aux projets récupérés dans l'API
     let works = await getWorks();
-    console.log(works);
-
-    document.querySelector(".gallery_modale").innerHTML = "";
+    document.querySelector(".galleryModale").innerHTML = "";
 
     //boucle pour gérer l'affichage des projets dans la modale
     for (let i = 0; i < works.length; i++) {
+        
         //Images :
-        const galleryModaleElement = document.querySelector(".gallery_modale");
+        const galleryModaleElement = document.querySelector(".galleryModale");
         const projectElement = document.createElement("figure");
         galleryModaleElement.appendChild(projectElement);
         const imageElement = document.createElement("img");
         imageElement.src = works[i].imageUrl;
         imageElement.alt = (works[i].title);
         projectElement.appendChild(imageElement);
+        
         //Icones poubelle :
         const trashElement = document.createElement("i");
         trashElement.classList.add("fa-solid");
@@ -76,11 +75,11 @@ export async function displayWorksModale() {
             const confirmation = confirm("Etes-vous sûr de vouloir supprimer ce projet?");
             //Si confirmation utilisateur : appel à la fonction de suppression de projets :
             if (confirmation) {
-                deleteWork(trashElement);
+                deleteWork(trashElement); // Appel de la fonction de suppression d'un projet
             }
         })
-        console.log(works[i].id);
-        //liaison icone-projet :
+        console.log("works[i].id = " + works[i].id);
+        //liaison id_icone - id_projet :
         trashElement.id = (works[i].id);
         projectElement.appendChild(trashElement);
     }
@@ -89,13 +88,16 @@ displayWorksModale();
 
 //____________________________Event Listener sur le bouton "Ajouter une photo" :
 
-const add_photo_button = document.getElementById("add_photo");
-let modale_delete_project = document.querySelector(".modale_delete_project");
-let modale_add_project = document.querySelector(".modale_add_project");
-add_photo_button.addEventListener("click", function () {
-    console.log("clic bouton Ajouter une photo modale 1");
-    modale_delete_project.classList.add("hidden");
-    modale_add_project.classList.remove("hidden");
+const addPhotoButton = document.getElementById("addPhoto");
+const modaleMain = document.querySelector(".modaleMain");
+const modaleAdd = document.querySelector(".modaleAdd");
+const validButton = document.getElementById("validAddPhoto");
+
+addPhotoButton.addEventListener("click", function () {
+    modaleMain.classList.add("hidden");
+    modaleAdd.classList.remove("hidden");
+    validButton.classList.remove("button");
+    validButton.classList.add("validAddPhoto");
 })
 
 
@@ -104,7 +106,7 @@ add_photo_button.addEventListener("click", function () {
 async function deleteWork(element) {
     let idWork = element.id;
     let token = localStorage.getItem("token");
-    console.log("token modale avant supp projet:" + token);
+
     //Appel à l'API pour supprimer un projet :
     await fetch("http://localhost:5678/api/works/" + idWork, {
         method: "DELETE",
@@ -125,7 +127,7 @@ async function deleteWork(element) {
             displayWorksModale()     //Rafraichissement des travaux dans la modale
             alert("Le projet a bien été supprimé.")
         } else {
-            //Si token ine :
+            //Si token nul :
             if (response.status === 401) {
                 console.error("Unauthorized. Check the validity of your token.");
             } else {

@@ -2,24 +2,20 @@ import { displayWorksModale } from "./ModaleDeleteProject.js";
 import { displayWorks, getCategory } from "./script.js";
 
 //Variable globale qui sert à savoir si une image a été sélectionnée par l'utilisateur
-let pictureSelected=false
+//let pictureSelected=false
 
 //______________________________NOUVEAU PROJET : FONCTION POUR PREVISUALISATION PHOTO_____________________________________________________
 
 function previewPhoto(e) {
     //Récupération du bouton input files
     const input = e.target;
-    console.log("Input "+input);
-    console.log("imput.files "+input.files);
-    console.log("input.files[0] "+input.files[0]);
-    console.log("input.files[0].name "+input.files[0].name);
+    console.log(input.files[0]);
 
     //Récupération de la balise img :
     const photo = document.getElementById("previewPhoto");
 
     //Condition d'affichage de l'image sélectionnée :
     if (input.files && input.files[0]) {    //affiche uniquement l'élément sélectionné et validé par l'utilisateur
-        //pictureSelected=true
         
         const reader = new FileReader();
         reader.onload = function (e) {
@@ -30,50 +26,42 @@ function previewPhoto(e) {
     };
 
     //Remplacement du contenu de la div choix photo par la prévisualisation de l'image sélectionnée :
-    let previewImage = document.querySelector(".choosePhoto");
-    let boxAddPhoto = document.querySelector(".box_add_photo");
+    let previewImage = document.querySelector(".smallPhoto");
+    let boxAddPhoto = document.querySelector(".choosePhoto");
     if (previewPhoto) {
         previewImage.classList.remove("hidden");
         boxAddPhoto.classList.add("hidden");
         controlForm("PICTURE")
     }
     
-    //Au clic sur l'image prévisualisée, retour à la fenêtre de téléchargement pour changer l'image :
+    //Au clic sur l'image prévisualisée :  
     photo.addEventListener("click", function () {
-        //pictureSelected=false
-        console.log("clic miniature photo");
+
+        // retour à la fenêtre de téléchargement pour changer l'image 
         boxAddPhoto.classList.remove("hidden");
         previewImage.classList.add("hidden");
+
+        // Reset de l'image précédemment sélectionnée
         photo.src = null;
         console.log("source miniature = " + photo.src);
         input.value = null;
-        console.log("input value" + input.value);
+        console.log(input.value);
 
+        // Appel de la fonction de contrôle des champs du formulaire
         controlForm("PICTURE")
-    
-        //image.files.delete;
-        //image.files.remove;
-        //image.files[0].reset;
-        //reader.readAsDataURL(input.files[0]).delete;
-        //image.files= null;
-
-        console.log("source photo = " + photo.src)
-        //image.files.value = "";
-        console.log("input file = " + input.files);
     });
 }
 
 //Récupération de l'élément input : cible de l'événement "change"
-document.getElementById("add_photo_input").addEventListener("change", previewPhoto);
+document.getElementById("addPhotoInput").addEventListener("change", previewPhoto);
 
 //__________________________AJOUT DES OPTIONS SELECT_________________________________________________
 
 async function selectOptionCateg() {
     //constante pour stocker le tableau d'objets correspondant aux catégories récupérées dans l'API
     const category = await getCategory();
-    console.log(category);
     //Création des options sur l'élément <select>:
-    const select = document.getElementById("select_categ");
+    const select = document.getElementById("selectCateg");
     const firstOption = new Option("", -1);
     select.add(firstOption);
     for (let i = 0; i < category.length; i++) {
@@ -86,10 +74,11 @@ selectOptionCateg();
 //__________________________FONCTION pour poster un nouveau projet vers l'API __________________________
 
 async function postNewProject() {
-    const imageFile = document.getElementById("add_photo_input");
+    const imageFile = document.getElementById("addPhotoInput");
     const titleInput = document.getElementById("title");
-    const categorySelect = document.getElementById("select_categ");
+    const categorySelect = document.getElementById("selectCateg");
     let token = localStorage.getItem("token");
+    const modaleAdd = document.querySelector(".modaleAdd");
 
     //----construction objet qui reprend les valeurs des balises du formulaire :
     const formData = new FormData();
@@ -111,8 +100,8 @@ async function postNewProject() {
         console.log("projet ajouté");
         displayWorks(-1);        //Rafraichissement des travaux dans index.html
         displayWorksModale()     //Rafraichissement des travaux dans la modale
-        //document.location.href = "index.html";    //Redirection vers la page d'accueil
-        formData.innerHTML = "";
+        formData.innerHTML = ""; //Reset du formulaire
+        modaleAdd.classList.add("hidden"); //retour sur la page d'accueil
     } else {
         console.log("erreur dans l'ajout du projet");
     }
@@ -120,17 +109,14 @@ async function postNewProject() {
 
 //_________________________Ajout d'un EVENTLISTENER sur bouton VALIDER__________________________________________________
 
-const ButtonValidNewProject = document.getElementById("valid_add_photo");
-console.log(ButtonValidNewProject);
+const ButtonValidNewProject = document.getElementById("validAddPhoto");
 ButtonValidNewProject.addEventListener("click", (event) => {
     // Désactivation du comportement par défaut du formulaire
     event.preventDefault();
-    console.log("clic valider");
 
-    //si tous les champs attendus sont renseignés alors on enregistre le projet et on vide le formulaire
+    //si tous les champs attendus sont renseignés alors on appelle la fonction PostNewProject et on vide le formulaire
     if (controlForm()) {
         event.preventDefault();
-        console.log("Controles ok, appel de POST NEW PROJECT"); 
         postNewProject();
         cleanForm();
     }
@@ -147,9 +133,9 @@ function controlForm (controlType="ALL") {
     const missCategory = document.getElementById("missCategory");
     
     let fieldsControl = true;
-    console.log("Entrée dans control form")
+    console.log("Entrée dans la fonction controlForm")
 
-    //Si le champ est vide, on retourne la variable "fieldsControl" à false
+    //Si le champ est vide, on retourne la variable "fieldsControl" à false :
     
     if (!fileControl()) {
         console.log("fileControle : Photo manquante")
@@ -161,9 +147,9 @@ function controlForm (controlType="ALL") {
         }
     }
     else {
-        console.log("fileControl : Photo ok")
         missImage.classList.add("hidden");
     }
+
     if (!titleControl()) {
         fieldsControl = false
         if (controlType=="ALL" || controlType=="TITLE") {
@@ -189,52 +175,30 @@ function controlForm (controlType="ALL") {
     }
 
     //Si tous les champs sont renseignés alors on affiche le bouton de validation
-    const validButton = document.getElementById("valid_add_photo");
-    if (fieldsControl) {
-        console.log("Control categ et Control Titre OK -- Affiche bouton valid");        
+    
+    const validButton = document.getElementById("validAddPhoto");
+    if (fieldsControl) {       
         validButton.classList.add("button");
-        validButton.classList.remove("valid_add_photo");
+        validButton.classList.remove("validAddPhoto");
     }
-    else {
-        console.log("Control categ KO ou Control titre KO -- Masque bouton valid");        
+    else {      
         validButton.classList.remove("button");
-        validButton.classList.add("valid_add_photo");
+        validButton.classList.add("validAddPhoto");
     }
     console.log("Valeur retournée par controlForm : "+fieldsControl)
     return fieldsControl;
 }
 
-//________________________________________Reset du Formulaire_______________________________________________________
+//_____________________Fonctions de contrôle de saisie des champs (renvoie "true" ou "false")______________________________
 
-export function cleanForm () {
-    const previewImage = document.querySelector(".choosePhoto");
-    const boxAddPhoto = document.querySelector(".box_add_photo");
-    const photo = document.getElementById("previewPhoto");
-    const missImage = document.getElementById("missImage");
-    const title = document.getElementById("title");
-    const missTitle = document.getElementById("missTitle");
-    const category = document.getElementById("select_categ");
-    const missCategory = document.getElementById("missCategory");
-
-    //reset de l'image
-    missImage.classList.add("hidden");
-   // pictureSelected=false
-    boxAddPhoto.classList.remove("hidden");
-    previewImage.classList.add("hidden");
-    photo.src = "";
-    //input.files[0].value = null;
-    
-    //reset du titre
-    title.value = "";
-    missTitle.classList.add("hidden");
-
-    //reset de la catégorie
-    category.value=-1;
-    missCategory.classList.add("hidden");
+// Contrôle champs INPUT FILE :
+function fileControl() {
+    const file = document.getElementById("addPhotoInput");
+    console.log("Valeur FileControl = " + !!file.value);
+    return !!file.value;
 }
 
-//_____________________Fonction qui controle si le champ titre est renseigné (renvoie true) ou pas (renvoie false)________
-
+// Contrôle champs TITRE :
 function titleControl() {
     const title = document.getElementById("title");
     if (!title.validity.valueMissing) {
@@ -246,17 +210,9 @@ function titleControl() {
     }
 }
 
-
-function fileControl() {
-    const file = document.getElementById("add_photo_input");
-    console.log("file saisi" + !!file.value);
-    return !!file.value;
-}
-
-//_______________________Fonction qui controle si le champ Catégorie est renseigné (renvoie true) ou pas (renvoie false)
-
+// Contrôle champs CATEGORIE :
 function categControl() {
-    const category = document.getElementById("select_categ");
+    const category = document.getElementById("selectCateg");
     //Si le champ est vide
     if (category.value != -1) {
         return true;
@@ -266,24 +222,41 @@ function categControl() {
     }
 }
 
-//_______________________________Contrôle des champs "titre" et "catégorie" du formulaire_______________________________________________
+//________________AddEventListeners sur les champs "titre" et "catégorie" pour appeler la fonction de contrôle du formulaire_______________________________________________
 
 const title = document.getElementById("title");
 title.addEventListener("change",()=>{
     controlForm("TITLE")
 });
 
-const categ = document.getElementById("select_categ");
+const categ = document.getElementById("selectCateg");
 categ.addEventListener("change",()=>{
     controlForm("CATEGORY")
 });
 
-//_____________________Fonction qui controle si l'image est renseignée (renvoie true) ou pas (renvoie false)___________
+//________________________________________Reset du Formulaire_______________________________________________________
 
-function pictureControl() {
-    //console.log("pictureSelected "+pictureSelected)   
-    //return pictureSelected;
-    return fileControl();
+export function cleanForm () {
+    const previewImage = document.querySelector(".smallPhoto");
+    const boxAddPhoto = document.querySelector(".choosePhoto");
+    const photo = document.getElementById("previewPhoto");
+    const missImage = document.getElementById("missImage");
+    const title = document.getElementById("title");
+    const missTitle = document.getElementById("missTitle");
+    const category = document.getElementById("selectCateg");
+    const missCategory = document.getElementById("missCategory");
 
-    //controlForm("FILE");
+    //reset de l'image
+    missImage.classList.add("hidden");
+    boxAddPhoto.classList.remove("hidden");
+    previewImage.classList.add("hidden");
+    photo.src = "";
+    
+    //reset du titre
+    title.value = "";
+    missTitle.classList.add("hidden");
+
+    //reset de la catégorie
+    category.value=-1;
+    missCategory.classList.add("hidden");
 }

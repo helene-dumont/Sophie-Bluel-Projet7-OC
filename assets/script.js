@@ -30,7 +30,6 @@ export async function displayWorks(idCategory) {
         const titleElement = document.createElement("figcaption");
         titleElement.innerHTML = works[i].title;
         projectElement.appendChild(titleElement);
-        //console.log("Catég:" + works[i].categoryId)
     }
 }
 
@@ -38,17 +37,17 @@ displayWorks(-1);
 
 //__________________________________FILTRAGE PAR CATEGORIES______________________________________________________
 
-//-------------------FONCTION "display_buttons" QUI GERE L'AFFICHAGE DES 4 BOUTONS----------------------------
+//-------------------FONCTION "displayFilters" QUI GERE L'AFFICHAGE DES 4 BOUTONS----------------------------
 
-function display_buttons(ind_button) {
-    let buttons = document.querySelectorAll(".filter");
+function displayFilters(ind_button) {
+    let filtersButton = document.querySelectorAll(".filter");
     console.log("exec function" + ind_button);
     let i = 0;
-    for (i = 0; i < buttons.length; i++) {
+    for (i = 0; i < filtersButton.length; i++) {
         if (i == ind_button) {
-            buttons[i].classList.add("filter_selected");
+            filtersButton[i].classList.add("filterSelected");
         } else {
-            buttons[i].classList.remove("filter_selected");
+            filtersButton[i].classList.remove("filterSelected");
         }
     }
 }
@@ -64,7 +63,6 @@ export async function getCategory() {
 async function displayCategory() {
     //constante pour stocker le tableau d'objets correspondant aux catégories récupérées dans l'API
     const category = await getCategory();
-    console.log(category);
     //Ajout de l'objet "tous" en première ligne du tableau des catégories
     const o = { id: -1, name: "Tous" };
     category.unshift(o);
@@ -79,7 +77,7 @@ async function displayCategory() {
         filters.appendChild(button);
         button.addEventListener("click", function () {
             displayWorks(category[i].id);  //Filtrage des travaux par catégories
-            display_buttons(i);  //apparence boutons
+            displayFilters(i);  //Apparence boutons
         })
     }
 }
@@ -89,13 +87,9 @@ displayCategory();
 
 function modifProject() {
     const modifPortfolio = document.querySelector(".modifPortfolio");
-    let modale_delete_project = document.querySelector(".modale_delete_project");
+    const modaleMain = document.querySelector(".modaleMain");
     modifPortfolio.addEventListener("click", function () {
-        console.log("clic modifier");
-        modale_delete_project.classList.remove("hidden");
+        modaleMain.classList.remove("hidden");
     })
 }
 modifProject();
-
-
-
