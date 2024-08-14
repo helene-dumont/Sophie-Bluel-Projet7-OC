@@ -1,9 +1,6 @@
 import { displayWorksModale } from "./ModaleDeleteProject.js";
 import { displayWorks, getCategory } from "./script.js";
 
-//Variable globale qui sert à savoir si une image a été sélectionnée par l'utilisateur
-//let pictureSelected=false
-
 //______________________________NOUVEAU PROJET : FONCTION POUR PREVISUALISATION PHOTO_____________________________________________________
 
 function previewPhoto(e) {
