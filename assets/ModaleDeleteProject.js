@@ -89,15 +89,12 @@ displayWorksModale();
 //____________________________Event Listener sur le bouton "Ajouter une photo" :
 
 const addPhotoButton = document.getElementById("addPhoto");
+addPhotoButton.addEventListener("click", function () {
 const modaleMain = document.querySelector(".modaleMain");
 const modaleAdd = document.querySelector(".modaleAdd");
-const validButton = document.getElementById("validAddPhoto");
 
-addPhotoButton.addEventListener("click", function () {
     modaleMain.classList.add("hidden");
     modaleAdd.classList.remove("hidden");
-    validButton.classList.remove("button");
-    validButton.classList.add("validAddPhoto");
 })
 
 
